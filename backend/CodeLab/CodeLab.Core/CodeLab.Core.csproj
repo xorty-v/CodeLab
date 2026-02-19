@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FluentValidation"/>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
+    <PackageReference Include="Microsoft.AspNetCore.Routing"/>
+    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeLab.CodeRunner\CodeLab.CodeRunner.csproj" />
+    <ProjectReference Include="..\CodeLab.Domain\CodeLab.Domain.csproj"/>
+  </ItemGroup>
+</Project>
