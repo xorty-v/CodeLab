@@ -34,5 +34,7 @@
     <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.6" />
     <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.6" />
     <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.6" />
+    <PackageVersion Include="WolverineFx" Version="5.16.2" />
+    <PackageVersion Include="WolverineFx.RabbitMQ" Version="5.16.2" />
   </ItemGroup>
 </Project>

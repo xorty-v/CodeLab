@@ -35,7 +35,7 @@ public sealed class GetBySlugHandler
     {
         var valueSlug = Slug.FromString(slug);
 
-        var exerciseResult = await _exercisesRepository.GetBySlugAsync(valueSlug, cancellationToken);
+        var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == valueSlug, cancellationToken);
         if (exerciseResult.IsFailure)
             return exerciseResult.Error;
 

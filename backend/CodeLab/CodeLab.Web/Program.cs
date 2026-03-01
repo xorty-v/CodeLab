@@ -1,4 +1,5 @@
 using System.Globalization;
+using CodeLab.Core.Messaging;
 using CodeLab.Web.Configuration;
 using Serilog;
 
@@ -20,6 +21,8 @@ try
     builder.Configuration.AddEnvironmentVariables();
 
     builder.Services.AddConfiguration(builder.Configuration);
+
+    builder.AddWolverine();
 
     WebApplication app = builder.Build();
 

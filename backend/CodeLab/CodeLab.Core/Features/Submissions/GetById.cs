@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Routing;
 
 namespace CodeLab.Core.Features.Submissions;
 
+public sealed record SubmissionResponse(Guid Id, SubmissionStatus Status, IReadOnlyCollection<TestItem>? Tests);
+
 public sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("submissions/{submissionId:guid}", async Task<EndpointResult<SubmissionStatus>> (
+        app.MapGet("submissions/{submissionId:guid}", async Task<EndpointResult<SubmissionResponse>> (
                 [FromRoute] Guid submissionId,
                 [FromServices] GetByIdHandler handler,
                 CancellationToken cancellationToken) =>
@@ -29,12 +31,18 @@ public sealed class GetByIdHandler
         _submissionsRepository = submissionsRepository;
     }
 
-    public async Task<Result<SubmissionStatus, Error>> Handle(Guid submissionId, CancellationToken cancellationToken)
+    public async Task<Result<SubmissionResponse, Error>> Handle(Guid submissionId, CancellationToken cancellationToken)
     {
-        Result<Submission, Error> submissionResult = await _submissionsRepository.GetById(submissionId, cancellationToken);
+        var submissionResult = await _submissionsRepository.GetByAsync(s => s.Id == submissionId, cancellationToken);
+
         if (submissionResult.IsFailure)
             return submissionResult.Error;
 
-        return submissionResult.Value.Status;
+        var submission = submissionResult.Value;
+
+        return new SubmissionResponse(
+            submission.Id,
+            submission.Status,
+            submission.TestResults);
     }
 }

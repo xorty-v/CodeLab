@@ -1,6 +1,6 @@
-﻿using CodeLab.CodeRunner;
-using CodeLab.Core.Endpoints;
+﻿using CodeLab.Core.Endpoints;
 using CodeLab.Core.Features.Exercises;
+using CodeLab.Core.Features.Submissions.Messaging;
 using CodeLab.Core.Validation;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Exercises;
@@ -10,7 +10,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
+using Wolverine;
 
 namespace CodeLab.Core.Features.Submissions;
 
@@ -28,7 +28,7 @@ public sealed class Submit : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("submissions/submit/{slug}", async Task<EndpointResult<string>> (
+        app.MapPost("exercises/{slug}/submissions", async Task<EndpointResult<Guid>> (
             [FromRoute] string slug,
             [FromBody] SubmitRequest request,
             [FromServices] SubmitHandler handler,
@@ -38,26 +38,24 @@ public sealed class Submit : IEndpoint
 
 public sealed class SubmitHandler
 {
-    private readonly ILogger<SubmitHandler> _logger;
     private readonly ISubmissionsRepository _submissionsRepository;
     private readonly IExercisesRepository _exercisesRepository;
+    private readonly IMessageBus _bus;
     private readonly IValidator<SubmitRequest> _validator;
-    private readonly ICodeRunnerService _codeRunnerService;
 
     public SubmitHandler(
-        ILogger<SubmitHandler> logger,
         IExercisesRepository exercisesRepository,
         ISubmissionsRepository submissionsRepository,
-        IValidator<SubmitRequest> validator, ICodeRunnerService codeRunnerService)
+        IMessageBus bus,
+        IValidator<SubmitRequest> validator)
     {
-        _logger = logger;
         _submissionsRepository = submissionsRepository;
         _exercisesRepository = exercisesRepository;
+        _bus = bus;
         _validator = validator;
-        _codeRunnerService = codeRunnerService;
     }
 
-    public async Task<Result<string, Error>> Handle(
+    public async Task<Result<Guid, Error>> Handle(
         string slug,
         SubmitRequest request,
         CancellationToken cancellationToken)
@@ -66,18 +64,17 @@ public sealed class SubmitHandler
         if (!validationResult.IsValid)
             return validationResult.ToError();
 
-        var exerciseResult = await _exercisesRepository.GetBySlugAsync(Slug.FromString(slug), cancellationToken);
+        var valueSlug = Slug.FromString(slug);
+
+        var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == valueSlug, cancellationToken);
         if (exerciseResult.IsFailure)
             return exerciseResult.Error;
 
         var submission = new Submission(Guid.NewGuid(), exerciseResult.Value.Id, request.SourceCode);
-
         await _submissionsRepository.AddAsync(submission, cancellationToken);
 
-        _logger.LogInformation("Created submission {Id}", submission.Id);
+        await _bus.PublishAsync(new SubmissionCreated(submission.Id, slug));
 
-        var result = await _codeRunnerService.RunCodeAsync(submission.Id, slug, request.SourceCode, cancellationToken);
-
-        return result.Value.ToString();
+        return submission.Id;
     }
 }

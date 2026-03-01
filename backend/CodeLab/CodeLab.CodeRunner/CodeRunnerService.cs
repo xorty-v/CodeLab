@@ -24,26 +24,20 @@ internal sealed class CodeRunnerService : ICodeRunnerService
         _logger = logger;
     }
 
-    public async Task<Result<SubmissionStatus, Error>> RunCodeAsync(
-        Guid submissionId,
-        string slug,
-        string sourceCode,
-        CancellationToken ct = default)
+    public async Task<Result<CodeExecutionResult, Error>> RunCodeAsync(string slug, string code, CancellationToken ct)
     {
-        _logger.LogInformation("Starting code run for SubmissionId: {SubmissionId}", submissionId);
-
-        var tempDirectory = CreateSubmissionDirectory(submissionId);
-        await WriteSubmissionFiles(tempDirectory, slug, sourceCode, ct);
+        var tempId = Guid.NewGuid();
+        var tempDirectory = CreateSubmissionDirectory(tempId);
+        await WriteSubmissionFiles(tempDirectory, slug, code, ct);
 
         var result = await RunDockerContainer(tempDirectory, ct);
 
-        _logger.LogInformation("Finished code run for SubmissionId: {SubmissionId}", submissionId);
         return result;
     }
 
-    private string CreateSubmissionDirectory(Guid submissionId)
+    private string CreateSubmissionDirectory(Guid tempId)
     {
-        var path = Path.Combine(_submissionsRoot, submissionId.ToString());
+        var path = Path.Combine(_submissionsRoot, tempId.ToString());
         Directory.CreateDirectory(path);
         return path;
     }
@@ -59,7 +53,8 @@ internal sealed class CodeRunnerService : ICodeRunnerService
         File.Copy(testSourcePath, testDestPath, overwrite: true);
     }
 
-    private async Task<Result<SubmissionStatus, Error>> RunDockerContainer(string submissionPath, CancellationToken ct)
+    private async Task<Result<CodeExecutionResult, Error>> RunDockerContainer(string submissionPath,
+        CancellationToken ct)
     {
         var client = new DockerClientConfiguration().CreateClient();
 
@@ -87,10 +82,10 @@ internal sealed class CodeRunnerService : ICodeRunnerService
 
         var json = await File.ReadAllTextAsync(resultJsonPath, ct);
         var options = new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } };
-        var testResult = JsonSerializer.Deserialize<TestResult>(json, options);
+        var testResult = JsonSerializer.Deserialize<CodeExecutionResult>(json, options);
 
-        return testResult!.Status;
+        return testResult;
     }
 }
 
-public record TestResult(SubmissionStatus Status);
+public record CodeExecutionResult(TestStatus Status, IEnumerable<TestItem> Tests);

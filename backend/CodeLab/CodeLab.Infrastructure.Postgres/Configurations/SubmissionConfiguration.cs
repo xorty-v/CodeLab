@@ -19,6 +19,11 @@ internal sealed class SubmissionConfiguration : IEntityTypeConfiguration<Submiss
             .HasConversion<string>()
             .IsRequired();
 
+        builder.OwnsMany(s => s.TestResults, navBuilder =>
+        {
+            navBuilder.ToJson("test_results");
+        });
+
         builder.Property(s => s.SubmittedAt).IsRequired();
 
         builder.HasOne<Exercise>()

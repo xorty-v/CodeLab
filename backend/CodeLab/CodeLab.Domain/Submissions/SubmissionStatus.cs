@@ -4,7 +4,7 @@ public enum SubmissionStatus
 {
     Pending,
     Processing,
-    pass,
-    fail,
+    Succeeded,
+    Failed,
     Error
 }
