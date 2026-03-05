@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CodeLab.CodeRunner\CodeLab.CodeRunner.csproj"/>
+    <ProjectReference Include="..\CodeLab.Contracts\CodeLab.Contracts.csproj" />
     <ProjectReference Include="..\CodeLab.Domain\CodeLab.Domain.csproj"/>
   </ItemGroup>
 </Project>

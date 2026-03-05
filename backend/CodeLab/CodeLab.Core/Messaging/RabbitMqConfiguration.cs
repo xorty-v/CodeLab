@@ -1,20 +1,8 @@
-﻿using CodeLab.Core.Features.Submissions.Messaging;
+﻿using CodeLab.Contracts.Submissions.Messaging;
 using Wolverine;
 using Wolverine.RabbitMQ;
 
 namespace CodeLab.Core.Messaging;
-
-public static class SubmissionEventsRouting
-{
-    public const string EXCHANGE = "codelab-submissions";
-
-    public static class RoutingKeys
-    {
-        public const string ALL_CREATED = "*.created";
-
-        public static string SubmissionCreated() => "submission.created";
-    }
-}
 
 public static class RabbitMqConfiguration
 {

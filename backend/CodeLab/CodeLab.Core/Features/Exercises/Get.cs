@@ -1,4 +1,5 @@
-﻿using CodeLab.Core.Endpoints;
+﻿using CodeLab.Contracts.Exercises;
+using CodeLab.Core.Endpoints;
 using CodeLab.Domain.Abstractions.Errors;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Builder;
@@ -7,16 +8,13 @@ using Microsoft.AspNetCore.Routing;
 
 namespace CodeLab.Core.Features.Exercises;
 
-public record GetExercisesDto(string Slug, string Title);
-
 public sealed class Get : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapGet("exercises", async Task<EndpointResult<IReadOnlyList<GetExercisesDto>>> (
-                [FromServices] GetHandler handler,
-                CancellationToken cancellationToken) =>
-            await handler.Handle(cancellationToken));
+            [FromServices] GetHandler handler,
+            CancellationToken cancellationToken) => await handler.Handle(cancellationToken));
     }
 }
 

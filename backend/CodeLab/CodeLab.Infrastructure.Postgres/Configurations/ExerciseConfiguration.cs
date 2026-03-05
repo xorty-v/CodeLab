@@ -21,7 +21,7 @@ internal sealed class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
         builder.Property(x => x.Slug)
             .HasConversion(
                 x => x.Value,
-                x => Slug.Create(x).Value)
+                x => Slug.Generate(x).Value)
             .HasColumnName("slug")
             .IsRequired();
     }

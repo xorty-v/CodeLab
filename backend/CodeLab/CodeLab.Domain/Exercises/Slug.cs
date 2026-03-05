@@ -13,7 +13,7 @@ public record Slug
         Value = value;
     }
 
-    public static Result<Slug, Error> Create(string value)
+    public static Result<Slug, Error> Generate(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -28,8 +28,8 @@ public record Slug
         return new Slug(normalized);
     }
 
-    public static Slug FromString(string value)
+    public static Slug Parse(string value)
     {
-        return new Slug(value);
+        return new Slug(value.ToLowerInvariant().Trim());
     }
 }

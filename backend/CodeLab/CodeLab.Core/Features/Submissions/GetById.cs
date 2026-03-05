@@ -1,6 +1,6 @@
-﻿using CodeLab.Core.Endpoints;
+﻿using CodeLab.Contracts.Submissions;
+using CodeLab.Core.Endpoints;
 using CodeLab.Domain.Abstractions.Errors;
-using CodeLab.Domain.Submissions;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -8,17 +8,14 @@ using Microsoft.AspNetCore.Routing;
 
 namespace CodeLab.Core.Features.Submissions;
 
-public sealed record SubmissionResponse(Guid Id, SubmissionStatus Status, IReadOnlyCollection<TestItem>? Tests);
-
 public sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapGet("submissions/{submissionId:guid}", async Task<EndpointResult<SubmissionResponse>> (
-                [FromRoute] Guid submissionId,
-                [FromServices] GetByIdHandler handler,
-                CancellationToken cancellationToken) =>
-            await handler.Handle(submissionId, cancellationToken));
+            [FromRoute] Guid submissionId,
+            [FromServices] GetByIdHandler handler,
+            CancellationToken cancellationToken) => await handler.Handle(submissionId, cancellationToken));
     }
 }
 

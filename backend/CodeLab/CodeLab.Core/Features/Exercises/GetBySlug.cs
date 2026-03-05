@@ -1,4 +1,5 @@
-﻿using CodeLab.Core.Endpoints;
+﻿using CodeLab.Contracts.Exercises;
+using CodeLab.Core.Endpoints;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Exercises;
 using CSharpFunctionalExtensions;
@@ -8,17 +9,14 @@ using Microsoft.AspNetCore.Routing;
 
 namespace CodeLab.Core.Features.Exercises;
 
-public record GetExerciseResponse(string Slug, string Title, string Description);
-
 public sealed class GetBySlug : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapGet("exercises/{slug}", async Task<EndpointResult<GetExerciseResponse>> (
-                [FromRoute] string slug,
-                [FromServices] GetBySlugHandler handler,
-                CancellationToken cancellationToken) =>
-            await handler.Handle(slug, cancellationToken));
+            [FromRoute] string slug,
+            [FromServices] GetBySlugHandler handler,
+            CancellationToken cancellationToken) => await handler.Handle(slug, cancellationToken));
     }
 }
 
@@ -33,7 +31,7 @@ public sealed class GetBySlugHandler
 
     public async Task<Result<GetExerciseResponse, Error>> Handle(string slug, CancellationToken cancellationToken)
     {
-        var valueSlug = Slug.FromString(slug);
+        var valueSlug = Slug.Parse(slug);
 
         var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == valueSlug, cancellationToken);
         if (exerciseResult.IsFailure)

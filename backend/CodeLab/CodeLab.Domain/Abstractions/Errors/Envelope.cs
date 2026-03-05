@@ -42,7 +42,7 @@ public record Envelope<T>
     {
         Result = result;
         Error = error;
-        TimeGenerated = DateTime.Now;
+        TimeGenerated = DateTime.UtcNow;
     }
 
     public static Envelope<T> Ok(T? result = default) =>

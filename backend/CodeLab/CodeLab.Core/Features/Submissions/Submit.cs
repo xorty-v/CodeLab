@@ -1,6 +1,7 @@
-﻿using CodeLab.Core.Endpoints;
+﻿using CodeLab.Contracts.Submissions;
+using CodeLab.Contracts.Submissions.Messaging;
+using CodeLab.Core.Endpoints;
 using CodeLab.Core.Features.Exercises;
-using CodeLab.Core.Features.Submissions.Messaging;
 using CodeLab.Core.Validation;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Exercises;
@@ -13,8 +14,6 @@ using Microsoft.AspNetCore.Routing;
 using Wolverine;
 
 namespace CodeLab.Core.Features.Submissions;
-
-public record SubmitRequest(string SourceCode);
 
 public class SubmitRequestValidator : AbstractValidator<SubmitRequest>
 {
@@ -64,7 +63,7 @@ public sealed class SubmitHandler
         if (!validationResult.IsValid)
             return validationResult.ToError();
 
-        var valueSlug = Slug.FromString(slug);
+        var valueSlug = Slug.Parse(slug);
 
         var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == valueSlug, cancellationToken);
         if (exerciseResult.IsFailure)

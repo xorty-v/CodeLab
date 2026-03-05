@@ -1,9 +1,8 @@
 ﻿using CodeLab.CodeRunner;
+using CodeLab.Contracts.Submissions.Messaging;
 using Microsoft.Extensions.Logging;
 
 namespace CodeLab.Core.Features.Submissions.Messaging;
-
-public record SubmissionCreated(Guid SubmissionId, string Slug);
 
 public sealed class SubmissionCreatedHandler
 {
