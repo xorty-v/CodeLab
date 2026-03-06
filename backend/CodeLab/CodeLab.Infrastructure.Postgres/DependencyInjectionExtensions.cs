@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CodeLab.Core;
+using CodeLab.Core.Database;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,9 +22,9 @@ public static class DependencyInjectionExtensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-        services.AddDbContext<AppDbContext>((provider, options) =>
+        services.AddDbContextPool<ApplicationDbContext>((provider, options) =>
         {
-            string? connectionString = configuration.GetConnectionString(Constants.DATABASE);
+            string? connectionString = configuration.GetConnectionString(ConnectionStringNames.DATABASE);
             IHostEnvironment environment = provider.GetRequiredService<IHostEnvironment>();
             ILoggerFactory loggerFactory = provider.GetRequiredService<ILoggerFactory>();
 
@@ -35,6 +38,23 @@ public static class DependencyInjectionExtensions
 
             options.UseLoggerFactory(loggerFactory);
             options.UseSnakeCaseNamingConvention();
+        });
+
+        services.AddDbContextPool<IApplicationReadDbContext, ApplicationDbContext>((provider, options) =>
+        {
+            string? connectionString = configuration.GetConnectionString(ConnectionStringNames.DATABASE);
+            IHostEnvironment hostEnvironment = provider.GetRequiredService<IHostEnvironment>();
+            ILoggerFactory loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+
+            options.UseNpgsql(connectionString);
+
+            if (hostEnvironment.IsDevelopment())
+            {
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+            }
+
+            options.UseLoggerFactory(loggerFactory);
         });
 
         return services;

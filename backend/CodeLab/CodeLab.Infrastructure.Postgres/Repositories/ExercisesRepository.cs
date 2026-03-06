@@ -11,10 +11,10 @@ namespace CodeLab.Infrastructure.Postgres.Repositories;
 
 internal sealed class ExercisesRepository : IExercisesRepository
 {
-    private readonly AppDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<ExercisesRepository> _logger;
 
-    public ExercisesRepository(AppDbContext dbContext, ILogger<ExercisesRepository> logger)
+    public ExercisesRepository(ApplicationDbContext dbContext, ILogger<ExercisesRepository> logger)
     {
         _dbContext = dbContext;
         _logger = logger;
@@ -41,12 +41,5 @@ internal sealed class ExercisesRepository : IExercisesRepository
             _logger.LogError(ex, "Unexpected error while getting exercise");
             return CodelabErrors.DatabaseError();
         }
-    }
-
-    public async Task<IReadOnlyList<Exercise>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Exercises
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
     }
 }

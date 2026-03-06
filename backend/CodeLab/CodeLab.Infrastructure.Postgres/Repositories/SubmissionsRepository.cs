@@ -2,7 +2,6 @@
 using CodeLab.Core.Features.Submissions;
 using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
-using CodeLab.Domain.Exercises;
 using CodeLab.Domain.Submissions;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +11,10 @@ namespace CodeLab.Infrastructure.Postgres.Repositories;
 
 internal sealed class SubmissionsRepository : ISubmissionsRepository
 {
-    private readonly AppDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<SubmissionsRepository> _logger;
 
-    public SubmissionsRepository(AppDbContext dbContext, ILogger<SubmissionsRepository> logger)
+    public SubmissionsRepository(ApplicationDbContext dbContext, ILogger<SubmissionsRepository> logger)
     {
         _dbContext = dbContext;
         _logger = logger;

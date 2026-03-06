@@ -3,7 +3,6 @@ using System;
 using CodeLab.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeLab.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260228153043_Add_TestItem")]
-    partial class Add_TestItem
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,6 +28,10 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<DateOnly>("AssignedDate")
+                        .HasColumnType("date")
+                        .HasColumnName("assigned_date");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -53,6 +54,14 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_exercises");
+
+                    b.HasIndex("AssignedDate")
+                        .IsUnique()
+                        .HasDatabaseName("ix_exercises_assigned_date");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasDatabaseName("ix_exercises_slug");
 
                     b.ToTable("exercises", (string)null);
                 });
@@ -116,8 +125,9 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.Property<int>("Status")
-                                .HasColumnType("integer");
+                            b1.Property<string>("Status")
+                                .IsRequired()
+                                .HasColumnType("text");
 
                             b1.HasKey("SubmissionId", "__synthesizedOrdinal")
                                 .HasName("pk_submissions");

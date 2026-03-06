@@ -9,6 +9,4 @@ public interface IExercisesRepository
 {
     Task<Result<Exercise, Error>> GetByAsync(Expression<Func<Exercise, bool>> predicate,
         CancellationToken cancellationToken = default);
-
-    Task<IReadOnlyList<Exercise>> GetAllAsync(CancellationToken cancellationToken = default);
 }

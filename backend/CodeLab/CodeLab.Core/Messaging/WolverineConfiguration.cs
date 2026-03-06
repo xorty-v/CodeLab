@@ -10,7 +10,7 @@ public static class WolverineConfiguration
     {
         builder.Host.ConfigureServices((context, services) =>
         {
-            string rabbitConnectionString = context.Configuration.GetConnectionString("RabbitMq")!;
+            string rabbitConnectionString = context.Configuration.GetConnectionString(ConnectionStringNames.RABBIT_MQ)!;
 
             services.AddWolverine(ExtensionDiscovery.ManualOnly, opts =>
             {
