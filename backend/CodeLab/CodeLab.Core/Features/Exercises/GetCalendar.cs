@@ -72,7 +72,7 @@ public sealed class GetHandler
             .Select(x => new { x.Id, x.Title, x.AssignedDate })
             .Select(x => new ValueTuple<DateOnly, ExerciseDto>(
                 x.AssignedDate,
-                new ExerciseDto(x.Id, x.Title)))
+                new ExerciseDto(x.Id, x.Title.Value)))
             .ToListAsync(cancellationToken);
 
         Dictionary<DateOnly, ExerciseDto> exercisesByDate = exercises.ToDictionary(x => x.Date, x => x.Exercise);

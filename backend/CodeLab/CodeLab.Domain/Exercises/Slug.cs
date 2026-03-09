@@ -4,21 +4,16 @@ using CSharpFunctionalExtensions;
 
 namespace CodeLab.Domain.Exercises;
 
-public record Slug
+public sealed record Slug
 {
+    private Slug(string value) => Value = value;
+
     public string Value { get; }
 
-    private Slug(string value)
-    {
-        Value = value;
-    }
-
-    public static Result<Slug, Error> Generate(string value)
+    public static Result<Slug, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-        {
-            return GeneralErrors.ValueIsInvalid("slug");
-        }
+            return GeneralErrors.ValueIsInvalid(nameof(Slug));
 
         string normalized = value.ToLowerInvariant().Trim();
 

@@ -5,9 +5,9 @@ namespace CodeLab.Domain.Submissions;
 
 public sealed class Submission
 {
-    public Submission(Guid? id, Guid exerciseId, string sourceCode)
+    public Submission(Guid exerciseId, SourceCode sourceCode)
     {
-        Id = id ?? Guid.NewGuid();
+        Id = Guid.NewGuid();
         ExerciseId = exerciseId;
         SourceCode = sourceCode;
         Status = SubmissionStatus.Pending;
@@ -15,45 +15,44 @@ public sealed class Submission
     }
 
     // EF Core
-    private Submission()
-    {
-    }
+    private Submission() { }
 
     public Guid Id { get; private set; }
 
     public Guid ExerciseId { get; private set; }
 
-    public string SourceCode { get; private set; }
+    public SourceCode SourceCode { get; private set; }
 
     public SubmissionStatus Status { get; private set; }
 
-    public List<TestItem>? TestResults { get; private set; } = new();
+    public TestResult? TestResult { get; private set; }
 
     public DateTime SubmittedAt { get; private set; }
 
-    public void MarkAsProcessing() => Status = SubmissionStatus.Processing;
+    public DateTime? CompletedAt { get; private set; }
 
-    public UnitResult<Error> MarkCompleted(List<TestItem> testItems)
+    public UnitResult<Error> MarkAsProcessing()
+    {
+        if (Status != SubmissionStatus.Pending)
+            return GeneralErrors.Failure("Submission already started");
+
+        Status = SubmissionStatus.Processing;
+
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> MarkAsCompleted(List<TestItem>? tests, string? message = null)
     {
         if (Status != SubmissionStatus.Processing)
-            return GeneralErrors.ValueIsInvalid("Submission is not in processing state");
+            return GeneralErrors.Failure("Submission is not processing");
 
-        if (!testItems.Any())
-            return GeneralErrors.ValueIsInvalid("Submission must contain test items");
+        var result = TestResult.Create(tests, message);
+        if (result.IsFailure)
+            return result.Error;
 
-        TestResults.Clear();
-        TestResults.AddRange(testItems);
-
-        if (testItems.Any(r => r.Status == TestStatus.Error))
-        {
-            Status = SubmissionStatus.Error;
-        }
-        else
-        {
-            Status = testItems.All(r => r.Status == TestStatus.Pass)
-                ? SubmissionStatus.Succeeded
-                : SubmissionStatus.Failed;
-        }
+        TestResult = result.Value;
+        Status = SubmissionStatus.Completed;
+        CompletedAt = DateTime.UtcNow;
 
         return UnitResult.Success<Error>();
     }

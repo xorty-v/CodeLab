@@ -36,9 +36,8 @@ public sealed class SubmissionCreatedHandler
         submission.MarkAsProcessing();
         await _submissionsRepository.UpdateAsync(submission, cancellationToken);
 
-        var result = await _codeRunnerService.RunCodeAsync(message.Slug, submission.SourceCode, cancellationToken);
+        var result = await _codeRunnerService.RunCodeAsync(message.Slug, submission.SourceCode.Value, cancellationToken);
 
-        submission.MarkCompleted(result.Value.Tests.ToList());
         await _submissionsRepository.UpdateAsync(submission, cancellationToken);
 
         _logger.LogInformation("Submission {Id} finished with status {Status}", submission.Id, submission.Status);

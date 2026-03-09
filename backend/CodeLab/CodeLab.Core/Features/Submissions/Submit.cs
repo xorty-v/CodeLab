@@ -19,7 +19,7 @@ public class SubmitRequestValidator : AbstractValidator<SubmitRequest>
 {
     public SubmitRequestValidator()
     {
-        RuleFor(x => x.SourceCode).NotEmpty();
+        RuleFor(x => x.SourceCode).MustBeValueObject(SourceCode.Create);
     }
 }
 
@@ -69,7 +69,11 @@ public sealed class SubmitHandler
         if (exerciseResult.IsFailure)
             return exerciseResult.Error;
 
-        var submission = new Submission(Guid.NewGuid(), exerciseResult.Value.Id, request.SourceCode);
+        var sourceCode = SourceCode.Create(request.SourceCode);
+        if (sourceCode.IsFailure)
+            return sourceCode.Error;
+
+        var submission = new Submission(exerciseResult.Value.Id, sourceCode.Value);
         await _submissionsRepository.AddAsync(submission, cancellationToken);
 
         await _bus.PublishAsync(new SubmissionCreated(submission.Id, slug));

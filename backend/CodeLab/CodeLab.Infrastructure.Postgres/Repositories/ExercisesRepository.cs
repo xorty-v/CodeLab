@@ -34,7 +34,7 @@ internal sealed class ExercisesRepository : IExercisesRepository
         catch (OperationCanceledException ex)
         {
             _logger.LogError(ex, "Operation was cancelled while getting exercise");
-            return CodelabErrors.OperationCancelled();
+            return GeneralErrors.OperationCancelled();
         }
         catch (Exception ex)
         {

@@ -16,9 +16,10 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    title = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: false),
+                    title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    markdown_content = table.Column<string>(type: "character varying(3000)", maxLength: 3000, nullable: false),
                     slug = table.Column<string>(type: "text", nullable: false),
+                    assigned_date = table.Column<DateOnly>(type: "date", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -32,9 +33,11 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     exercise_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    source_code = table.Column<string>(type: "text", nullable: false),
+                    source_code = table.Column<string>(type: "character varying(10000)", maxLength: 10000, nullable: false),
                     status = table.Column<string>(type: "text", nullable: false),
-                    submitted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    submitted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    completed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    test_result = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,6 +49,18 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_exercises_assigned_date",
+                table: "exercises",
+                column: "assigned_date",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_exercises_slug",
+                table: "exercises",
+                column: "slug",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_submissions_exercise_id",

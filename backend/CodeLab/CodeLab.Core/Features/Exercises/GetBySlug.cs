@@ -39,6 +39,6 @@ public sealed class GetBySlugHandler
 
         Exercise exercise = exerciseResult.Value;
 
-        return new GetExerciseResponse(exercise.Slug.Value, exercise.Title, exercise.Description);
+        return new GetExerciseResponse(exercise.Slug.Value, exercise.Title.Value, exercise.MarkdownContent.Value);
     }
 }

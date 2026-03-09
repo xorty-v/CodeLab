@@ -3,9 +3,9 @@
 namespace CodeLab.Domain.Submissions;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum SubmissionStatus
+public enum TestStatus
 {
-    Pending,
-    Processing,
-    Completed
+    Pass,
+    Fail,
+    Error
 }

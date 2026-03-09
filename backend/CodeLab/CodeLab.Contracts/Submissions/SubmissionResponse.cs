@@ -2,4 +2,13 @@
 
 namespace CodeLab.Contracts.Submissions;
 
-public sealed record SubmissionResponse(Guid Id, SubmissionStatus Status, IReadOnlyCollection<TestItem>? Tests);
+public record SubmissionResponse(
+    Guid Id,
+    SubmissionStatus Status,
+    TestResultDto? Result);
+
+public record TestResultDto(
+    TestStatus TestStatus,
+    string? Message,
+    List<TestItem> Tests
+);

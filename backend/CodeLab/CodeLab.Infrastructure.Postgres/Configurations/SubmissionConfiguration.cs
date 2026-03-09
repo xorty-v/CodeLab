@@ -13,19 +13,38 @@ internal sealed class SubmissionConfiguration : IEntityTypeConfiguration<Submiss
 
         builder.HasKey(s => s.Id);
 
-        builder.Property(s => s.SourceCode).IsRequired();
+        builder.Property(x => x.SourceCode)
+            .HasConversion(
+                x => x.Value,
+                x => SourceCode.Create(x).Value)
+            .HasMaxLength(SourceCode.MAX_LENGTH)
+            .IsRequired();
 
         builder.Property(s => s.Status)
             .HasConversion<string>()
             .IsRequired();
 
-        builder.OwnsMany(s => s.TestResults, navBuilder =>
-        {
-            navBuilder.ToJson("test_results");
 
-            navBuilder.Property(tr => tr.Status)
+        builder.OwnsOne(s => s.TestResult, result =>
+        {
+            result.ToJson("test_result");
+
+            result.Property(r => r.Status)
                 .HasConversion<string>();
+
+            result.Property(r => r.Message);
+
+            result.OwnsMany(r => r.TestItems, items =>
+            {
+                items.Property(i => i.Name).IsRequired();
+
+                items.Property(i => i.Status)
+                    .HasConversion<string>();
+
+                items.Property(i => i.Output);
+            });
         });
+
 
         builder.Property(s => s.SubmittedAt).IsRequired();
 

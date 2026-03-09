@@ -18,25 +18,29 @@ internal sealed class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Title).IsRequired();
+        builder.Property(x => x.Title)
+            .HasConversion(
+                v => v.Value,
+                v => Title.Create(v).Value)
+            .HasMaxLength(Title.MAX_LENGTH)
+            .IsRequired();
 
-        builder.Property(x => x.Description).IsRequired();
+        builder.Property(x => x.MarkdownContent)
+            .HasConversion(
+                x => x.Value,
+                x => MarkdownContent.Create(x).Value)
+            .HasMaxLength(MarkdownContent.MAX_LENGTH)
+            .IsRequired();
 
         builder.Property(x => x.Slug)
             .HasConversion(
                 x => x.Value,
-                x => Slug.Generate(x).Value)
-            .HasColumnName("slug")
+                x => Slug.Create(x).Value)
             .IsRequired();
 
-        builder.HasIndex(x => x.Slug)
-            .HasDatabaseName(ExerciseIndexes.SLUG)
-            .IsUnique();
-
-        builder.HasIndex(x => x.AssignedDate)
-            .HasDatabaseName(ExerciseIndexes.ASSIGNED_DATE)
-            .IsUnique();
-
         builder.Property(x => x.CreatedAt).IsRequired();
+
+        builder.HasIndex(x => x.Slug).IsUnique().HasDatabaseName(ExerciseIndexes.SLUG);
+        builder.HasIndex(x => x.AssignedDate).IsUnique().HasDatabaseName(ExerciseIndexes.ASSIGNED_DATE);
     }
 }

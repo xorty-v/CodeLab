@@ -34,7 +34,7 @@ internal sealed class SubmissionsRepository : ISubmissionsRepository
         catch (OperationCanceledException ex)
         {
             _logger.LogError(ex, "Operation was cancelled while getting submission");
-            return CodelabErrors.OperationCancelled();
+            return GeneralErrors.OperationCancelled();
         }
         catch (Exception ex)
         {

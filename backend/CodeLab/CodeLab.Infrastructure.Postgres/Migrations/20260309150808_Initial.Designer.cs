@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeLab.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260228153043_Add_TestItem")]
-    partial class Add_TestItem
+    [Migration("20260309150808_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,14 +32,19 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateOnly>("AssignedDate")
+                        .HasColumnType("date")
+                        .HasColumnName("assigned_date");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("MarkdownContent")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasMaxLength(3000)
+                        .HasColumnType("character varying(3000)")
+                        .HasColumnName("markdown_content");
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -48,11 +53,20 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("title");
 
                     b.HasKey("Id")
                         .HasName("pk_exercises");
+
+                    b.HasIndex("AssignedDate")
+                        .IsUnique()
+                        .HasDatabaseName("ix_exercises_assigned_date");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasDatabaseName("ix_exercises_slug");
 
                     b.ToTable("exercises", (string)null);
                 });
@@ -64,13 +78,18 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("completed_at");
+
                     b.Property<Guid>("ExerciseId")
                         .HasColumnType("uuid")
                         .HasColumnName("exercise_id");
 
                     b.Property<string>("SourceCode")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(10000)
+                        .HasColumnType("character varying(10000)")
                         .HasColumnName("source_code");
 
                     b.Property<string>("Status")
@@ -100,38 +119,63 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_submissions_exercises_exercise_id");
 
-                    b.OwnsMany("CodeLab.Domain.Submissions.TestItem", "TestResults", b1 =>
+                    b.OwnsOne("CodeLab.Domain.Submissions.TestResult", "TestResult", b1 =>
                         {
                             b1.Property<Guid>("SubmissionId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("__synthesizedOrdinal")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
                             b1.Property<string>("Message")
                                 .HasColumnType("text");
 
-                            b1.Property<string>("Name")
+                            b1.Property<string>("Status")
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.Property<int>("Status")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("SubmissionId", "__synthesizedOrdinal")
-                                .HasName("pk_submissions");
+                            b1.HasKey("SubmissionId");
 
                             b1.ToTable("submissions");
 
-                            b1.ToJson("test_results");
+                            b1.ToJson("test_result");
 
                             b1.WithOwner()
                                 .HasForeignKey("SubmissionId")
-                                .HasConstraintName("fk_submissions_submissions_submission_id");
+                                .HasConstraintName("fk_submissions_submissions_id");
+
+                            b1.OwnsMany("CodeLab.Domain.Submissions.TestItem", "TestItems", b2 =>
+                                {
+                                    b2.Property<Guid>("TestResultSubmissionId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("__synthesizedOrdinal")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.Property<string>("Output")
+                                        .HasColumnType("text");
+
+                                    b2.Property<string>("Status")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.HasKey("TestResultSubmissionId", "__synthesizedOrdinal");
+
+                                    b2.ToTable("submissions");
+
+                                    b2.ToJson("test_result");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("TestResultSubmissionId")
+                                        .HasConstraintName("fk_submissions_submissions_test_result_submission_id");
+                                });
+
+                            b1.Navigation("TestItems");
                         });
 
-                    b.Navigation("TestResults");
+                    b.Navigation("TestResult");
                 });
 #pragma warning restore 612, 618
         }
