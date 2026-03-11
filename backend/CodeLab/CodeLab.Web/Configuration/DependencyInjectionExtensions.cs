@@ -1,7 +1,7 @@
-﻿using CodeLab.CodeRunner;
-using CodeLab.Core;
+﻿using CodeLab.Core;
 using CodeLab.Core.Endpoints;
 using CodeLab.Infrastructure.Postgres;
+using CodeLab.SubmissionProcessing;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Exceptions;
@@ -19,7 +19,7 @@ public static class DependencyInjectionExtensions
 
         services
             .AddCore(configuration)
-            .AddCodeRunner(configuration)
+            .AddSubmissionProcessing(configuration)
             .AddInfrastructurePostgres(configuration);
 
         return services;

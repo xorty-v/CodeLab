@@ -26,10 +26,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodeLab.CodeRunner\CodeLab.CodeRunner.csproj" />
     <ProjectReference Include="..\CodeLab.Core\CodeLab.Core.csproj"/>
     <ProjectReference Include="..\CodeLab.Domain\CodeLab.Domain.csproj"/>
-    <ProjectReference Include="..\CodeLab.Infrastructure.Postgres\CodeLab.Infrastructure.Postgres.csproj" />
+    <ProjectReference Include="..\CodeLab.Infrastructure.Postgres\CodeLab.Infrastructure.Postgres.csproj"/>
+    <ProjectReference Include="..\CodeLab.SubmissionProcessing\CodeLab.SubmissionProcessing.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\.dockerignore">

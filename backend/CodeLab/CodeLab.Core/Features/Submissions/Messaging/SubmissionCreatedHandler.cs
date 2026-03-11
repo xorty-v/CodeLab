@@ -1,5 +1,4 @@
-﻿using CodeLab.CodeRunner;
-using CodeLab.Contracts.Submissions.Messaging;
+﻿using CodeLab.Contracts.Submissions.Messaging;
 using Microsoft.Extensions.Logging;
 
 namespace CodeLab.Core.Features.Submissions.Messaging;
@@ -7,23 +6,22 @@ namespace CodeLab.Core.Features.Submissions.Messaging;
 public sealed class SubmissionCreatedHandler
 {
     private readonly ISubmissionsRepository _submissionsRepository;
-    private readonly ICodeRunnerService _codeRunnerService;
+    private readonly ISubmissionProcessingService _submissionProcessingService;
     private readonly ILogger<SubmissionCreatedHandler> _logger;
 
     public SubmissionCreatedHandler(
         ISubmissionsRepository submissionsRepository,
-        ICodeRunnerService codeRunnerService,
+        ISubmissionProcessingService submissionProcessingService,
         ILogger<SubmissionCreatedHandler> logger)
     {
         _submissionsRepository = submissionsRepository;
-        _codeRunnerService = codeRunnerService;
+        _submissionProcessingService = submissionProcessingService;
         _logger = logger;
     }
 
-    public async Task Handle(SubmissionCreated message, CancellationToken cancellationToken)
+    public async Task Handle(SubmissionCreated message, CancellationToken ct)
     {
-        var submissionResult = await _submissionsRepository.GetByAsync(s => s.Id == message.SubmissionId,
-            cancellationToken);
+        var submissionResult = await _submissionsRepository.GetByAsync(s => s.Id == message.SubmissionId, ct);
 
         if (submissionResult.IsFailure)
         {
@@ -33,13 +31,29 @@ public sealed class SubmissionCreatedHandler
 
         var submission = submissionResult.Value;
 
-        submission.MarkAsProcessing();
-        await _submissionsRepository.UpdateAsync(submission, cancellationToken);
+        var markProcessingResult = submission.MarkAsProcessing();
+        if (markProcessingResult.IsFailure)
+        {
+            _logger.LogWarning(
+                "Submission {SubmissionId} cannot start processing. Status: {Status}", submission.Id,
+                submission.Status);
+            return;
+        }
 
-        var result = await _codeRunnerService.RunCodeAsync(message.Slug, submission.SourceCode.Value, cancellationToken);
+        await _submissionsRepository.UpdateAsync(submission, ct);
 
-        await _submissionsRepository.UpdateAsync(submission, cancellationToken);
+        var processingResult = await _submissionProcessingService.ProcessSubmissionAsync(
+            message.SubmissionId,
+            message.Slug,
+            ct);
 
-        _logger.LogInformation("Submission {Id} finished with status {Status}", submission.Id, submission.Status);
+        if (processingResult.IsFailure)
+        {
+            _logger.LogError(
+                "Processing failed for submission {SubmissionId}: {Error}", message.SubmissionId,
+                processingResult.Error);
+        }
+
+        _logger.LogInformation("Submission {SubmissionId} processed successfully", message.SubmissionId);
     }
 }

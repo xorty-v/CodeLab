@@ -63,20 +63,18 @@ public sealed class SubmitHandler
         if (!validationResult.IsValid)
             return validationResult.ToError();
 
-        var valueSlug = Slug.Parse(slug);
+        Slug valueSlug = Slug.Parse(slug);
+        SourceCode sourceCode = SourceCode.Create(request.SourceCode).Value;
 
         var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == valueSlug, cancellationToken);
         if (exerciseResult.IsFailure)
             return exerciseResult.Error;
 
-        var sourceCode = SourceCode.Create(request.SourceCode);
-        if (sourceCode.IsFailure)
-            return sourceCode.Error;
+        var exercise = exerciseResult.Value;
+        var submission = new Submission(exercise.Id, sourceCode);
 
-        var submission = new Submission(exerciseResult.Value.Id, sourceCode.Value);
         await _submissionsRepository.AddAsync(submission, cancellationToken);
-
-        await _bus.PublishAsync(new SubmissionCreated(submission.Id, slug));
+        await _bus.PublishAsync(new SubmissionCreated(submission.Id, exercise.Slug.Value));
 
         return submission.Id;
     }
