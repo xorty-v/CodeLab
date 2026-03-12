@@ -36,6 +36,7 @@ internal sealed class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
             .HasConversion(
                 x => x.Value,
                 x => Slug.Create(x).Value)
+            .HasMaxLength(Slug.MAX_LENGTH)
             .IsRequired();
 
         builder.Property(x => x.CreatedAt).IsRequired();

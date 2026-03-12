@@ -15,12 +15,12 @@ public sealed record Title
     public static Result<Title, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsInvalid(nameof(value));
+            return GeneralErrors.ValueIsInvalid("title");
 
         string normalized = Regex.Replace(value.Trim(), @"\s+", " ");
 
         if (normalized.Length > MAX_LENGTH)
-            return GeneralErrors.ValueIsInvalid(nameof(value));
+            return GeneralErrors.ValueIsInvalid("title");
 
         return new Title(normalized);
     }

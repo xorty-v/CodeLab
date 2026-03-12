@@ -63,10 +63,13 @@ public sealed class SubmitHandler
         if (!validationResult.IsValid)
             return validationResult.ToError();
 
-        Slug valueSlug = Slug.Parse(slug);
+        Result<Slug, Error> slugResult = Slug.Create(slug);
+        if (slugResult.IsFailure)
+            return slugResult.Error;
+
         SourceCode sourceCode = SourceCode.Create(request.SourceCode).Value;
 
-        var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == valueSlug, cancellationToken);
+        var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == slugResult.Value, cancellationToken);
         if (exerciseResult.IsFailure)
             return exerciseResult.Error;
 

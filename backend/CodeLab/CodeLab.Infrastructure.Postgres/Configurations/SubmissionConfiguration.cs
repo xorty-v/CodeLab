@@ -24,7 +24,6 @@ internal sealed class SubmissionConfiguration : IEntityTypeConfiguration<Submiss
             .HasConversion<string>()
             .IsRequired();
 
-
         builder.OwnsOne(s => s.TestResult, result =>
         {
             result.ToJson("test_result");
@@ -44,7 +43,6 @@ internal sealed class SubmissionConfiguration : IEntityTypeConfiguration<Submiss
                 items.Property(i => i.Output);
             });
         });
-
 
         builder.Property(s => s.SubmittedAt).IsRequired();
 

@@ -45,7 +45,8 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("slug");
 
                     b.Property<string>("Title")

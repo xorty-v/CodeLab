@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeLab.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260309150808_Initial")]
+    [Migration("20260312071004_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -48,7 +48,8 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("slug");
 
                     b.Property<string>("Title")

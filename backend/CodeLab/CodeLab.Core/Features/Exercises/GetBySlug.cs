@@ -31,9 +31,12 @@ public sealed class GetBySlugHandler
 
     public async Task<Result<GetExerciseResponse, Error>> Handle(string slug, CancellationToken cancellationToken)
     {
-        var valueSlug = Slug.Parse(slug);
+        var slugResult = Slug.Create(slug);
 
-        var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == valueSlug, cancellationToken);
+        if (slugResult.IsFailure)
+            return slugResult.Error;
+
+        var exerciseResult = await _exercisesRepository.GetByAsync(e => e.Slug == slugResult.Value, cancellationToken);
         if (exerciseResult.IsFailure)
             return exerciseResult.Error;
 

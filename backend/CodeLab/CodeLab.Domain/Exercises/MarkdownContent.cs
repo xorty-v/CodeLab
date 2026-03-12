@@ -14,12 +14,12 @@ public sealed record MarkdownContent
     public static Result<MarkdownContent, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsInvalid(nameof(value));
+            return GeneralErrors.ValueIsInvalid("exercise.markdownContent");
 
         string trimmed = value.Trim();
 
         if (trimmed.Length > MAX_LENGTH)
-            return GeneralErrors.ValueIsInvalid(nameof(value));
+            return GeneralErrors.ValueIsInvalid("exercise.markdownContent");
 
         return new MarkdownContent(trimmed);
     }

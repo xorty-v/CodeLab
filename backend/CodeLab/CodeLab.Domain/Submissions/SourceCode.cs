@@ -14,12 +14,12 @@ public sealed record SourceCode
     public static Result<SourceCode, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsInvalid(nameof(value));
+            return GeneralErrors.ValueIsInvalid("sourceCode");
 
         var normalized = value.Replace("\r\n", "\n").Replace("\r", "\n");
 
         if (normalized.Length > MAX_LENGTH)
-            return GeneralErrors.ValueIsInvalid(nameof(value));
+            return GeneralErrors.ValueIsInvalid("sourceCode");
 
         return new SourceCode(normalized);
     }

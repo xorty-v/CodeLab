@@ -25,7 +25,7 @@ public sealed record TestResult
             return new TestResult(TestStatus.Error, message, []);
 
         if (testItems is not { Count: > 0 })
-            return GeneralErrors.ValueIsRequired(nameof(testItems));
+            return GeneralErrors.ValueIsRequired("testItems");
 
         var status = testItems.Select(t => t.Status).Max();
 

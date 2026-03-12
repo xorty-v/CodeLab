@@ -19,7 +19,7 @@ public sealed record TestItem
     public static Result<TestItem, Error> Create(string name, TestStatus status, string? output)
     {
         if (string.IsNullOrWhiteSpace(name))
-            return GeneralErrors.ValueIsRequired(nameof(name));
+            return GeneralErrors.ValueIsRequired("testItem");
 
         return new TestItem(name, status, output);
     }

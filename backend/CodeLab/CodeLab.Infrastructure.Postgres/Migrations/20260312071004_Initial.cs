@@ -18,7 +18,7 @@ namespace CodeLab.Infrastructure.Postgres.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     markdown_content = table.Column<string>(type: "character varying(3000)", maxLength: 3000, nullable: false),
-                    slug = table.Column<string>(type: "text", nullable: false),
+                    slug = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
                     assigned_date = table.Column<DateOnly>(type: "date", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
