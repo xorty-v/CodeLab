@@ -1,10 +1,9 @@
 ﻿using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
 using CSharpFunctionalExtensions;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CodeLab.SubmissionProcessing;
+namespace CodeLab.SubmissionProcessing.Worker;
 
 public interface IFileSystemService
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace CodeLab.SubmissionProcessing.ProcessExecutor;
+namespace CodeLab.SubmissionProcessing.Worker.ProcessExecutor;
 
 public partial record ProcessCommand(string ExecutableFile, string Arguments)
 {

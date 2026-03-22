@@ -1,7 +1,7 @@
 ﻿using CodeLab.Domain.Abstractions.Errors;
 using CSharpFunctionalExtensions;
 
-namespace CodeLab.SubmissionProcessing.ProcessExecutor;
+namespace CodeLab.SubmissionProcessing.Worker.ProcessExecutor;
 
 public interface IProcessRunner
 {

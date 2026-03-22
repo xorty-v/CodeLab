@@ -5,7 +5,7 @@ using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Submissions;
 using CSharpFunctionalExtensions;
 
-namespace CodeLab.SubmissionProcessing.DockerProcess;
+namespace CodeLab.SubmissionProcessing.Worker.DockerProcess;
 
 internal static class DockerOutputParser
 {
@@ -42,5 +42,19 @@ public sealed class ContainerResponse
     public string? Message { get; init; }
 
     [JsonPropertyName("tests")]
-    public required List<TestItem> Tests { get; init; }
+    public required List<TestItemRaw> Tests { get; init; }
+}
+
+public sealed class TestItemRaw
+{
+    [JsonPropertyName("name")]
+    public string Name { get; init; }
+
+    [JsonPropertyName("status")]
+    public TestStatus Status { get; init; }
+
+    [JsonPropertyName("output")]
+    public string? Output { get; init; }
+
+    public TestItem ToDomain() => TestItem.Create(Name, Status, Output).Value;
 }

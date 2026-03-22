@@ -1,11 +1,10 @@
 ﻿using CodeLab.Core.Features.Submissions;
 using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
-using CodeLab.SubmissionProcessing.DockerProcess;
+using CodeLab.SubmissionProcessing.Worker.DockerProcess;
 using CSharpFunctionalExtensions;
-using Microsoft.Extensions.Logging;
 
-namespace CodeLab.SubmissionProcessing;
+namespace CodeLab.SubmissionProcessing.Worker;
 
 internal sealed class SubmissionProcessingService : ISubmissionProcessingService
 {
@@ -52,7 +51,9 @@ internal sealed class SubmissionProcessingService : ISubmissionProcessingService
             if (dockerResult.IsFailure)
                 return dockerResult.Error;
 
-            submission.MarkAsCompleted(dockerResult.Value.Tests, dockerResult.Value.Message);
+            var testItems = dockerResult.Value.Tests.Select(t => t.ToDomain()).ToList();
+
+            submission.MarkAsCompleted(testItems, dockerResult.Value.Message);
             await _submissionsRepository.UpdateAsync(submission, cancellationToken);
 
             _logger.LogInformation("Completed submission processing for SubmissionId: {SubmissionId}", submissionId);

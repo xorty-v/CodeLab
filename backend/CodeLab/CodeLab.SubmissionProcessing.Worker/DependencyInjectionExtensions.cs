@@ -1,14 +1,12 @@
 ﻿using CodeLab.Core.Features.Submissions;
-using CodeLab.SubmissionProcessing.DockerProcess;
-using CodeLab.SubmissionProcessing.ProcessExecutor;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using CodeLab.SubmissionProcessing.Worker.DockerProcess;
+using CodeLab.SubmissionProcessing.Worker.ProcessExecutor;
 
-namespace CodeLab.SubmissionProcessing;
+namespace CodeLab.SubmissionProcessing.Worker;
 
 public static class DependencyInjectionExtensions
 {
-    public static IServiceCollection AddSubmissionProcessing(this IServiceCollection services,
+    public static IServiceCollection AddConfiguration(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.Configure<SubmissionProcessingOptions>(

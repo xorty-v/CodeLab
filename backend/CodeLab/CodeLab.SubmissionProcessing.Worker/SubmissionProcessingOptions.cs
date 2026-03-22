@@ -1,10 +1,10 @@
-﻿namespace CodeLab.SubmissionProcessing;
+﻿namespace CodeLab.SubmissionProcessing.Worker;
 
 public sealed record SubmissionProcessingOptions
 {
     public const string SECTION_NAME = "SubmissionProcessing";
 
-    public string WorkspacePath { get; init; }
+    public string WorkspacePath { get; init; } = "Workspace";
 
     public string DockerPath { get; init; } = "docker";
 

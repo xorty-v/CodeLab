@@ -2,10 +2,12 @@
 using Wolverine;
 using Wolverine.RabbitMQ;
 
-namespace CodeLab.Core.Messaging;
+namespace CodeLab.SubmissionProcessing.Worker.Messaging;
 
 public static class RabbitMqConfiguration
 {
+    private const string SUBMISSIONS_QUEUE = "codelab.submissions.runner";
+
     public static void ConfigureRabbitMq(this WolverineOptions opts, string connectionString)
     {
         opts.UseRabbitMq(new Uri(connectionString))
@@ -18,7 +20,11 @@ public static class RabbitMqConfiguration
                 exchange.IsDurable = true;
             });
 
-        opts.PublishMessagesToRabbitMqExchange<SubmissionCreated>(
-            SubmissionEventsRouting.EXCHANGE, _ => SubmissionEventsRouting.RoutingKeys.SubmissionCreated());
+        opts.ListenToRabbitQueue(SUBMISSIONS_QUEUE, queue =>
+        {
+            queue.BindExchange(
+                SubmissionEventsRouting.EXCHANGE,
+                SubmissionEventsRouting.RoutingKeys.SubmissionCreated());
+        });
     }
 }

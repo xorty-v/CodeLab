@@ -3,9 +3,8 @@ using System.Text;
 using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
 using CSharpFunctionalExtensions;
-using Microsoft.Extensions.Logging;
 
-namespace CodeLab.SubmissionProcessing.ProcessExecutor;
+namespace CodeLab.SubmissionProcessing.Worker.ProcessExecutor;
 
 internal sealed class ProcessRunner : IProcessRunner
 {

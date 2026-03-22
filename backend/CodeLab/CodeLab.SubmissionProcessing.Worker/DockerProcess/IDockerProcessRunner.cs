@@ -1,7 +1,7 @@
 ﻿using CodeLab.Domain.Abstractions.Errors;
 using CSharpFunctionalExtensions;
 
-namespace CodeLab.SubmissionProcessing.DockerProcess;
+namespace CodeLab.SubmissionProcessing.Worker.DockerProcess;
 
 public interface IDockerProcessRunner
 {

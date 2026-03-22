@@ -1,3 +1,3 @@
-﻿namespace CodeLab.SubmissionProcessing.ProcessExecutor;
+﻿namespace CodeLab.SubmissionProcessing.Worker.ProcessExecutor;
 
 public record ProcessResult(int ExitCode, string StandardOutput, string StandardError);

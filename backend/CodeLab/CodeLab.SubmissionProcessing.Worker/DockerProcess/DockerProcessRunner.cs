@@ -1,9 +1,9 @@
 ﻿using CodeLab.Domain.Abstractions.Errors;
-using CodeLab.SubmissionProcessing.ProcessExecutor;
+using CodeLab.SubmissionProcessing.Worker.ProcessExecutor;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Options;
 
-namespace CodeLab.SubmissionProcessing.DockerProcess;
+namespace CodeLab.SubmissionProcessing.Worker.DockerProcess;
 
 internal sealed class DockerProcessRunner : IDockerProcessRunner
 {
