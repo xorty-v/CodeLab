@@ -2,6 +2,7 @@
   <PropertyGroup>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
@@ -25,11 +26,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen"/>
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI"/>
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\CodeLab.Core\CodeLab.Core.csproj"/>
     <ProjectReference Include="..\CodeLab.Domain\CodeLab.Domain.csproj"/>
     <ProjectReference Include="..\CodeLab.Infrastructure.Postgres\CodeLab.Infrastructure.Postgres.csproj"/>
   </ItemGroup>
+
   <ItemGroup>
     <Content Include="..\.dockerignore">
       <Link>.dockerignore</Link>

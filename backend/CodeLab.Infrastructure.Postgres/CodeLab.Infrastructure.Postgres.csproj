@@ -2,12 +2,14 @@
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions"/>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
-    <PackageReference Include="Scrutor" />
+    <PackageReference Include="Scrutor"/>
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\CodeLab.Core\CodeLab.Core.csproj"/>
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <Folder Include="Migrations\"/>
   </ItemGroup>
 </Project>

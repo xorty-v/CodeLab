@@ -1,0 +1,16 @@
+﻿<Solution>
+    <Folder Name="/Solution Items/">
+        <File Path="../docker-compose-dev.yml" />
+        <File Path=".editorconfig" />
+        <File Path="Directory.Build.props" />
+        <File Path="Directory.Packages.props" />
+    </Folder>
+    <Folder Name="/src/">
+        <Project Path="CodeLab.Contracts/CodeLab.Contracts.csproj" />
+        <Project Path="CodeLab.Core/CodeLab.Core.csproj" />
+        <Project Path="CodeLab.Domain/CodeLab.Domain.csproj" />
+        <Project Path="CodeLab.Infrastructure.Postgres/CodeLab.Infrastructure.Postgres.csproj" />
+        <Project Path="CodeLab.SubmissionProcessing.Worker/CodeLab.SubmissionProcessing.Worker.csproj" />
+        <Project Path="CodeLab.Web/CodeLab.Web.csproj" />
+    </Folder>
+</Solution>

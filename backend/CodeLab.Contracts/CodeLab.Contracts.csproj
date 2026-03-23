@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\CodeLab.Domain\CodeLab.Domain.csproj" />
+    <ProjectReference Include="..\CodeLab.Domain\CodeLab.Domain.csproj"/>
   </ItemGroup>
 </Project>
