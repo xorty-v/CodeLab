@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Submissions;
 using CSharpFunctionalExtensions;
@@ -17,7 +16,7 @@ internal static class DockerOutputParser
     public static Result<ContainerResponse, Error> Parse(string stdout)
     {
         if (string.IsNullOrWhiteSpace(stdout))
-            return CodelabErrors.InvalidDockerOutput("Empty output");
+            return SubmissionProcessingErrors.InvalidRunnerOutput("empty output");
 
         ContainerResponse? response;
         try
@@ -26,11 +25,11 @@ internal static class DockerOutputParser
         }
         catch (JsonException ex)
         {
-            return CodelabErrors.InvalidDockerOutput($"JSON parse error: {ex.Message}");
+            return SubmissionProcessingErrors.InvalidRunnerOutput($"JSON parse error: {ex.Message}");
         }
 
         if (response is null)
-            return CodelabErrors.InvalidDockerOutput("Null response");
+            return SubmissionProcessingErrors.InvalidRunnerOutput("null response");
 
         return response;
     }

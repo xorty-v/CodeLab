@@ -1,5 +1,4 @@
 ﻿using CodeLab.Core.Features.Submissions;
-using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.SubmissionProcessing.Worker.DockerProcess;
 using CSharpFunctionalExtensions;
@@ -63,7 +62,7 @@ internal sealed class SubmissionProcessingService : ISubmissionProcessingService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Critical error during submission {SubmissionId} processing", submissionId);
-            return CodelabErrors.ProcessFailed();
+            return GeneralErrors.Failure("Submission processing failed.");
         }
         finally
         {

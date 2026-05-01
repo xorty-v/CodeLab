@@ -1,5 +1,4 @@
-﻿using CodeLab.Domain;
-using CodeLab.Domain.Abstractions.Errors;
+﻿using CodeLab.Domain.Abstractions.Errors;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Options;
 
@@ -38,7 +37,7 @@ internal sealed class FileSystemService : IFileSystemService
                 Path.Combine(_options.WorkspacePath, EXERCISES_ROOT_FOLDER, slug, TEST_FILE_NAME);
 
             if (!File.Exists(testFilePath))
-                return CodelabErrors.TestFileNotFound(slug);
+                return SubmissionProcessingErrors.TestFileNotFound(slug);
 
             if (!Directory.Exists(workDir))
                 Directory.CreateDirectory(workDir);
@@ -50,7 +49,7 @@ internal sealed class FileSystemService : IFileSystemService
         }
         catch (IOException ex)
         {
-            return CodelabErrors.PreparationFailed(ex.Message);
+            return SubmissionProcessingErrors.WorkspacePreparationFailed(ex.Message);
         }
     }
 

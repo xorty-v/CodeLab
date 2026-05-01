@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using CodeLab.Core.Features.Submissions;
-using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Submissions;
 using CSharpFunctionalExtensions;
@@ -39,7 +38,7 @@ internal sealed class SubmissionsRepository : ISubmissionsRepository
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error while getting submission");
-            return CodelabErrors.DatabaseError();
+            return GeneralErrors.DatabaseError();
         }
     }
 

@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using CodeLab.Core.Features.Exercises;
-using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Exercises;
 using CSharpFunctionalExtensions;
@@ -39,7 +38,7 @@ internal sealed class ExercisesRepository : IExercisesRepository
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error while getting exercise");
-            return CodelabErrors.DatabaseError();
+            return GeneralErrors.DatabaseError();
         }
     }
 }

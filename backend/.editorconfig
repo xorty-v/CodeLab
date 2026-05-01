@@ -2,6 +2,9 @@
 
 root = true
 
+# ============================================================
+# GLOBAL DEFAULTS
+# ============================================================
 [*]
 insert_final_newline = false
 indent_style = space
@@ -10,16 +13,9 @@ charset = utf-8-bom
 end_of_line = crlf
 trim_trailing_whitespace = false
 
-# Microsoft .NET properties
-csharp_new_line_before_members_in_object_initializers = false
-csharp_preferred_modifier_order = public, private, protected, internal, file, new, static, abstract, virtual, sealed, readonly, override, extern, unsafe, volatile, async, required:suggestion
-csharp_style_prefer_utf8_string_literals = true:suggestion
-csharp_style_var_elsewhere = true:suggestion
-csharp_style_var_for_built_in_types = true:suggestion
-csharp_style_var_when_type_is_apparent = true:suggestion
-dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary:none
-dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:none
-dotnet_style_parentheses_in_relational_binary_operators = never_if_unnecessary:none
+# ============================================================
+# DOTNET: STYLE PREFERENCES (general)
+# ============================================================
 dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
 dotnet_style_predefined_type_for_member_access = true:suggestion
 dotnet_style_qualification_for_event = false:suggestion
@@ -28,81 +24,10 @@ dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
 
-# ReSharper properties
-resharper_autodetect_indent_settings = true
-resharper_csharp_insert_final_newline = false
-resharper_formatter_off_tag = @formatter:off
-resharper_formatter_on_tag = @formatter:on
-resharper_formatter_tags_enabled = true
-resharper_fsharp_insert_final_newline = false
-resharper_html_insert_final_newline = false
-resharper_resx_insert_final_newline = false
-resharper_shaderlab_insert_final_newline = false
-resharper_T4_insert_final_newline = false
-resharper_use_indent_from_vs = false
-resharper_vb_insert_final_newline = false
-resharper_xmldoc_insert_final_newline = false
-resharper_xml_insert_final_newline = false
-
-# ReSharper inspection severities
-resharper_arrange_redundant_parentheses_highlighting = hint
-resharper_arrange_this_qualifier_highlighting = hint
-resharper_arrange_type_member_modifiers_highlighting = hint
-resharper_arrange_type_modifiers_highlighting = hint
-resharper_built_in_type_reference_style_for_member_access_highlighting = hint
-resharper_built_in_type_reference_style_highlighting = hint
-resharper_mvc_action_not_resolved_highlighting = warning
-resharper_mvc_area_not_resolved_highlighting = warning
-resharper_mvc_controller_not_resolved_highlighting = warning
-resharper_mvc_masterpage_not_resolved_highlighting = warning
-resharper_mvc_partial_view_not_resolved_highlighting = warning
-resharper_mvc_template_not_resolved_highlighting = warning
-resharper_mvc_view_component_not_resolved_highlighting = warning
-resharper_mvc_view_component_view_not_resolved_highlighting = warning
-resharper_mvc_view_not_resolved_highlighting = warning
-resharper_razor_assembly_not_resolved_highlighting = warning
-resharper_redundant_base_qualifier_highlighting = warning
-resharper_suggest_var_or_type_built_in_types_highlighting = hint
-resharper_suggest_var_or_type_elsewhere_highlighting = hint
-resharper_suggest_var_or_type_simple_types_highlighting = hint
-resharper_web_config_module_not_resolved_highlighting = warning
-resharper_web_config_type_not_resolved_highlighting = warning
-resharper_web_config_wrong_module_highlighting = warning
-
-# Code quality analyzers
-dotnet_analyzer_diagnostic.category-security.severity = error
-dotnet_code_quality.ca1802.api_surface = private, internal
-
-# name all constant fields using PascalCase
-dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
-dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
-dotnet_naming_symbols.constant_fields.applicable_kinds = field
-dotnet_naming_symbols.constant_fields.required_modifiers = const
-dotnet_naming_style.pascal_case_style.capitalization = pascal_case
-
-# static fields should have s_ prefix
-dotnet_naming_rule.static_fields_should_have_prefix.severity = suggestion
-dotnet_naming_rule.static_fields_should_have_prefix.symbols = static_fields
-dotnet_naming_rule.static_fields_should_have_prefix.style = static_prefix_style
-dotnet_naming_symbols.static_fields.applicable_kinds = field
-dotnet_naming_symbols.static_fields.required_modifiers = static
-dotnet_naming_symbols.static_fields.applicable_accessibilities = private, internal, private_protected
-dotnet_naming_style.static_prefix_style.required_prefix = s_
-dotnet_naming_style.static_prefix_style.capitalization = camel_case
-
-# internal and private fields should be _camelCase
-dotnet_naming_rule.camel_case_for_private_internal_fields.severity = suggestion
-dotnet_naming_rule.camel_case_for_private_internal_fields.symbols = private_internal_fields
-dotnet_naming_rule.camel_case_for_private_internal_fields.style = camel_case_underscore_style
-dotnet_naming_symbols.private_internal_fields.applicable_kinds = field
-dotnet_naming_symbols.private_internal_fields.applicable_accessibilities = private, internal
-dotnet_naming_style.camel_case_underscore_style.required_prefix = _
-dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case
-
-# Code quality
-dotnet_style_readonly_field = true:suggestion
-dotnet_code_quality_unused_parameters = non_public:suggestion
+# Parentheses
+dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary:none
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:none
+dotnet_style_parentheses_in_relational_binary_operators = never_if_unnecessary:none
 
 # Expression-level preferences
 dotnet_style_object_initializer = true:suggestion
@@ -114,12 +39,86 @@ dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggesti
 dotnet_style_prefer_inferred_tuple_names = true:suggestion
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_auto_properties = true:suggestion
-dotnet_style_prefer_conditional_expression_over_assignment = true
-dotnet_style_prefer_conditional_expression_over_return = true
+dotnet_style_prefer_conditional_expression_over_assignment = true:suggestion
+dotnet_style_prefer_conditional_expression_over_return = true:suggestion
 
-# C# files
+# Code quality
+dotnet_style_readonly_field = true:suggestion
+dotnet_code_quality_unused_parameters = non_public:suggestion
+
+# Sort 'using' directives: System.* first, then alphabetically
+dotnet_sort_system_directives_first = true
+
+# ============================================================
+# DOTNET: NAMING RULES
+# ============================================================
+
+# -- Public constants: SCREAMING_SNAKE_CASE --
+dotnet_naming_symbols.public_constants.applicable_kinds = field
+dotnet_naming_symbols.public_constants.applicable_accessibilities = public
+dotnet_naming_symbols.public_constants.required_modifiers = const
+dotnet_naming_style.public_constants_style.capitalization = all_upper
+dotnet_naming_style.public_constants_style.word_separator = _
+dotnet_naming_rule.public_constants_rule.symbols = public_constants
+dotnet_naming_rule.public_constants_rule.style = public_constants_style
+dotnet_naming_rule.public_constants_rule.severity = suggestion
+
+# -- Private/internal constants: SCREAMING_SNAKE_CASE --
+dotnet_naming_symbols.private_constants.applicable_kinds = field
+dotnet_naming_symbols.private_constants.applicable_accessibilities = private, internal
+dotnet_naming_symbols.private_constants.required_modifiers = const
+dotnet_naming_style.private_constants_style.capitalization = all_upper
+dotnet_naming_style.private_constants_style.word_separator = _
+dotnet_naming_rule.private_constants_rule.symbols = private_constants
+dotnet_naming_rule.private_constants_rule.style = private_constants_style
+dotnet_naming_rule.private_constants_rule.severity = suggestion
+
+# -- Private/internal instance fields: _camelCase --
+dotnet_naming_symbols.private_internal_fields.applicable_kinds = field
+dotnet_naming_symbols.private_internal_fields.applicable_accessibilities = private, internal
+dotnet_naming_style.camel_case_underscore_style.required_prefix = _
+dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case
+dotnet_naming_rule.camel_case_for_private_internal_fields.symbols = private_internal_fields
+dotnet_naming_rule.camel_case_for_private_internal_fields.style = camel_case_underscore_style
+dotnet_naming_rule.camel_case_for_private_internal_fields.severity = suggestion
+
+# -- Private static fields: _camelCase --
+dotnet_naming_symbols.private_static_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields.required_modifiers = static
+dotnet_naming_style.underscore_prefix_style.required_prefix = _
+dotnet_naming_style.underscore_prefix_style.capitalization = camel_case
+dotnet_naming_rule.private_static_fields_should_have_underscore.symbols = private_static_fields
+dotnet_naming_rule.private_static_fields_should_have_underscore.style = underscore_prefix_style
+dotnet_naming_rule.private_static_fields_should_have_underscore.severity = suggestion
+
+# ============================================================
+# DOTNET: CODE QUALITY ANALYZERS
+# ============================================================
+dotnet_analyzer_diagnostic.category-security.severity = error
+dotnet_code_quality.ca1802.api_surface = private, internal
+
+# ============================================================
+# C# FILES
+# ============================================================
 [*.cs]
-# New line preferences
+
+# -- Modifier order --
+csharp_preferred_modifier_order = public, private, protected, internal, file, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, volatile, async, required:suggestion
+
+# -- Using directives placement --
+csharp_using_directive_placement = outside_namespace:error
+
+# -- Namespace style (file-scoped, C# 10+) --
+csharp_style_namespace_declarations = file_scoped:suggestion
+
+# -- var usage --
+# Prefer explicit types everywhere for clarity
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_when_type_is_apparent = false:none
+csharp_style_var_elsewhere = false:suggestion
+
+# -- New line preferences --
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
 csharp_new_line_before_catch = true
@@ -128,7 +127,7 @@ csharp_new_line_before_members_in_object_initializers = false
 csharp_new_line_before_members_in_anonymous_types = true
 csharp_new_line_between_query_expression_clauses = true
 
-# Indentation preferences
+# -- Indentation --
 csharp_indent_block_contents = true
 csharp_indent_braces = false
 csharp_indent_case_contents = true
@@ -136,46 +135,45 @@ csharp_indent_case_contents_when_block = true
 csharp_indent_switch_labels = true
 csharp_indent_labels = one_less_than_current
 
-# Modifier preferences
-csharp_preferred_modifier_order = public, private, protected, internal, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, volatile, async:suggestion
-
-# Code style defaults
-csharp_using_directive_placement = outside_namespace:error
-csharp_prefer_braces = true
+# -- Brace & block preferences --
+csharp_prefer_braces = true:suggestion
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = false
-csharp_prefer_static_local_function = true:suggestion
-csharp_prefer_simple_using_statement = false:none
-csharp_style_prefer_switch_expression = true:suggestion
 
-# Expression-bodied members
-csharp_style_expression_bodied_methods = true
-csharp_style_expression_bodied_constructors = true
-csharp_style_expression_bodied_operators = true
-csharp_style_expression_bodied_properties = true
-csharp_style_expression_bodied_indexers = true
-csharp_style_expression_bodied_accessors = true
-csharp_style_expression_bodied_lambdas = true
-csharp_style_expression_bodied_local_functions = true
+# -- Expression-bodied members --
+csharp_style_expression_bodied_methods = true:suggestion
+csharp_style_expression_bodied_constructors = true:suggestion
+csharp_style_expression_bodied_operators = true:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_indexers = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+csharp_style_expression_bodied_lambdas = true:suggestion
+csharp_style_expression_bodied_local_functions = true:suggestion
 
-# Pattern matching
+# -- Pattern matching --
 csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
 
-# Expression-level preferences
-csharp_prefer_simple_default_expression = true:suggestion
-
-# Null checking preferences
+# -- Null checks & expressions --
 csharp_style_throw_expression = true:suggestion
 csharp_style_conditional_delegate_call = true:suggestion
+csharp_prefer_simple_default_expression = true:suggestion
 
-# Other features
+# -- Local functions --
+csharp_prefer_static_local_function = true:suggestion
 csharp_style_prefer_index_operator = false:none
 csharp_style_prefer_range_operator = false:none
 csharp_style_pattern_local_over_anonymous_function = false:none
 
-# Space preferences
+# -- using statement --
+csharp_prefer_simple_using_statement = false:none
+
+# -- UTF-8 string literals (C# 11+) --
+csharp_style_prefer_utf8_string_literals = true:suggestion
+
+# -- Spacing --
 csharp_space_after_cast = false
 csharp_space_after_colon_in_inheritance_clause = true
 csharp_space_after_comma = true
@@ -198,128 +196,81 @@ csharp_space_between_method_declaration_parameter_list_parentheses = false
 csharp_space_between_parentheses = false
 csharp_space_between_square_brackets = false
 
-# Types: use keywords instead of BCL types, and permit var only when the type is clear
-csharp_style_var_for_built_in_types = false:suggestion
-csharp_style_var_when_type_is_apparent = false:none
-csharp_style_var_elsewhere = false:suggestion
+# ============================================================
+# STYLECOP ANALYZERS — disabled rules
+# ============================================================
+dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.SA1009.severity = none # Closing parentheses spacing
+dotnet_diagnostic.SA1010.severity = none # Opening square brackets
+dotnet_diagnostic.SA1011.severity = none # Closing square brackets
+dotnet_diagnostic.SA1015.severity = none # Closing generic bracket
+dotnet_diagnostic.SA1024.severity = none # Colons spacing
+dotnet_diagnostic.SA1101.severity = none # Prefix local calls with this
+dotnet_diagnostic.SA1106.severity = none # Code must not contain empty statements
+dotnet_diagnostic.SA1116.severity = none # Split parameters must start on line after declaration
+dotnet_diagnostic.SA1117.severity = none # Parameters must be on same line or separate lines
+dotnet_diagnostic.SA1118.severity = none # Parameter must not span multiple lines
+dotnet_diagnostic.SA1200.severity = none # Using directives placement
+dotnet_diagnostic.SA1201.severity = none # Elements must appear in correct order
+dotnet_diagnostic.SA1206.severity = none # Declaration keywords must follow order
+dotnet_diagnostic.SA1309.severity = none # Field names must not begin with underscore
+dotnet_diagnostic.SA1310.severity = none # Field names must not contain underscore
+dotnet_diagnostic.SA1313.severity = none # Parameter names must begin with lower-case letter
+dotnet_diagnostic.SA1401.severity = none # Fields must be private
+dotnet_diagnostic.SA1413.severity = none # Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1500.severity = none # Braces for multi-line statements must not share line
+dotnet_diagnostic.SA1502.severity = none # Element must not be on single line
+dotnet_diagnostic.SA1503.severity = none # Braces must not be omitted
+dotnet_diagnostic.SA1508.severity = none # A closing brace must not be preceded by a blank line
+dotnet_diagnostic.SA1600.severity = none # Elements must be documented
+dotnet_diagnostic.SA1601.severity = none # Partial elements must be documented
+dotnet_diagnostic.SA1602.severity = none # Enumeration items must be documented
+dotnet_diagnostic.SA1623.severity = none # Property summary documentation must match accessors
+dotnet_diagnostic.SA1633.severity = none # File must have header
+dotnet_diagnostic.SA1652.severity = none # Enable XML documentation output (deprecated)
 
-# Xml project files
+# ============================================================
+# PROJECT FILES
+# ============================================================
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
 indent_size = 2
 
-# Xml build files
 [*.builds]
 indent_size = 2
 
-# Xml files
 [*.{xml,stylecop,resx,ruleset}]
 indent_size = 2
 
-# Xml config files
 [*.{props,targets,config,nuspec}]
 indent_size = 2
 
-# Shell scripts
-[*.sh]
-end_of_line = lf
-
-[*.{cmd, bat}]
-end_of_line = crlf
-
+# ============================================================
+# JSON FILES
+# ============================================================
 [{*.har,*.jsb2,*.jsb3,*.json,*.jsonc,*.postman_collection,*.postman_collection.json,*.postman_environment,*.postman_environment.json,.babelrc,.eslintrc,.prettierrc,.stylelintrc,.ws-context,bowerrc,jest.config}]
 indent_style = space
 indent_size = 2
 
+# ============================================================
+# YAML FILES
+# ============================================================
 [{*.yaml,*.yml}]
 indent_style = space
 indent_size = 2
 
+# ============================================================
+# SHELL SCRIPTS
+# ============================================================
+[*.sh]
+end_of_line = lf
+
+[*.{cmd,bat}]
+end_of_line = crlf
+
+# ============================================================
+# MISC SOURCE FILES
+# ============================================================
 [*.{appxmanifest,asax,ascx,aspx,axaml,build,c,c++,c++m,cc,ccm,cginc,compute,cp,cpp,cppm,cs,cshtml,cu,cuh,cxx,cxxm,dtd,fs,fsi,fsscript,fsx,fx,fxh,h,hh,hlsl,hlsli,hlslinc,hpp,hxx,inc,inl,ino,ipp,ixx,master,ml,mli,mpp,mq4,mq5,mqh,mxx,nuspec,paml,razor,resw,resx,shader,skin,tpp,usf,ush,uxml,vb,xaml,xamlx,xoml,xsd}]
 indent_style = space
 indent_size = 4
 tab_width = 4
-
-#CUSTOM
-
-#STYLE COP ANALYZERS
-dotnet_diagnostic.SA0001.severity = none
-dotnet_diagnostic.SA1500.severity = none
-dotnet_diagnostic.SA1502.severity = none
-dotnet_diagnostic.SA1508.severity = none
-dotnet_diagnostic.sa1200.severity = none
-dotnet_diagnostic.sa1309.severity = none
-dotnet_diagnostic.SA1101.severity = none
-dotnet_diagnostic.SA1600.severity = none
-dotnet_diagnostic.SA1503.severity = none
-dotnet_diagnostic.SA1206.severity = none
-dotnet_diagnostic.SA1313.severity = none
-dotnet_diagnostic.SA1010.severity = none
-dotnet_diagnostic.SA1200.severity = none
-dotnet_diagnostic.SA1601.severity = none
-dotnet_diagnostic.SA1106.severity = none
-dotnet_diagnostic.SA1117.severity = none
-dotnet_diagnostic.SA1024.severity = none
-dotnet_diagnostic.SA1009.severity = none
-dotnet_diagnostic.SA1000.severity = none
-dotnet_diagnostic.SA1009.severity = none
-dotnet_diagnostic.SA1011.severity = none
-dotnet_diagnostic.SA1101.severity = none
-dotnet_diagnostic.SA1633.severity = none
-dotnet_diagnostic.SA1602.severity = none
-dotnet_diagnostic.SA1201.severity = none
-dotnet_diagnostic.SA1623.severity = none
-dotnet_diagnostic.SA1118.severity = none
-dotnet_diagnostic.eSA1128.severity = none
-dotnet_diagnostic.SA1401.severity = none
-dotnet_diagnostic.SA1652.severity = none
-dotnet_diagnostic.SA1200.severity = none
-dotnet_diagnostic.SA1413.severity = none
-dotnet_diagnostic.SA1116.severity = none
-dotnet_diagnostic.SA1015.severity = none
-
-# Отключаем или меняем уровень серьезности предупреждения SA1310, чтобы не конфликтовало с новыми правилами.
-dotnet_diagnostic.SA1310.severity = none
-
-# Определяем символы для публичных констант
-dotnet_naming_symbols.public_constants.applicable_kinds = field
-dotnet_naming_symbols.public_constants.applicable_accessibilities = public
-dotnet_naming_symbols.public_constants.required_modifiers = const
-
-# Задаём стиль именования:
-#   - all_upper: все символы в верхнем регистре
-#   - word_separator = _: использовать подчеркивание для разделения слов
-dotnet_naming_style.public_constants_style.capitalization = all_upper
-dotnet_naming_style.public_constants_style.word_separator = _
-
-# Применяем стиль к символам:
-dotnet_naming_rule.public_constants_rule.symbols = public_constants
-dotnet_naming_rule.public_constants_rule.style = public_constants_style
-dotnet_naming_rule.public_constants_rule.severity = suggestion
-
-# Настройка правил именования для приватных статических полей
-dotnet_naming_rule.private_static_fields_should_have_underscore.symbols = private_static_fields
-dotnet_naming_rule.private_static_fields_should_have_underscore.style = underscore_prefix_style
-dotnet_naming_rule.private_static_fields_should_have_underscore.severity = suggestion
-
-dotnet_naming_symbols.private_static_fields.applicable_kinds = field
-dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
-dotnet_naming_symbols.private_static_fields.required_modifiers = static
-
-dotnet_naming_style.underscore_prefix_style.capitalization = camel_case
-dotnet_naming_style.underscore_prefix_style.required_prefix = _
-
-# Определяем символы для приватных констант
-dotnet_naming_symbols.private_constants.applicable_kinds = field
-dotnet_naming_symbols.private_constants.applicable_accessibilities = private
-dotnet_naming_symbols.private_constants.required_modifiers = const
-
-# Задаём стиль именования:
-#   - all_upper: все символы в верхнем регистре
-#   - word_separator = _: использовать подчеркивание для разделения слов
-dotnet_naming_style.private_constants_style.capitalization = all_upper
-dotnet_naming_style.private_constants_style.word_separator = _
-
-# Применяем стиль к символам:
-dotnet_naming_rule.private_constants_rule.symbols = private_constants
-dotnet_naming_rule.private_constants_rule.style = private_constants_style
-dotnet_naming_rule.private_constants_rule.severity = suggestion

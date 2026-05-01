@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using CodeLab.Domain;
 using CodeLab.Domain.Abstractions.Errors;
 using CSharpFunctionalExtensions;
 
@@ -79,7 +78,7 @@ internal sealed class ProcessRunner : IProcessRunner
                 "Process failed: {FileName} {Arguments} ExitCode: {ExitCode} Error: {Error}",
                 command.ExecutableFile, command.Arguments, result.ExitCode, result.StandardError);
 
-            return CodelabErrors.ProcessFailed();
+            return SubmissionProcessingErrors.RunnerProcessFailed();
         }
 
         return result;

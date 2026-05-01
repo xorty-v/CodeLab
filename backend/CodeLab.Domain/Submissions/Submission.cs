@@ -34,7 +34,7 @@ public sealed class Submission
     public UnitResult<Error> MarkAsProcessing()
     {
         if (Status != SubmissionStatus.Pending)
-            return GeneralErrors.Failure("Submission already started");
+            return GeneralErrors.InvalidOperation("The submission is already being processed.");
 
         Status = SubmissionStatus.Processing;
 
@@ -44,7 +44,7 @@ public sealed class Submission
     public UnitResult<Error> MarkAsCompleted(List<TestItem>? tests, string? message = null)
     {
         if (Status != SubmissionStatus.Processing)
-            return GeneralErrors.Failure("Submission is not processing");
+            return GeneralErrors.InvalidOperation("The submission is not in processing state.");
 
         var result = TestResult.Create(tests, message);
         if (result.IsFailure)
