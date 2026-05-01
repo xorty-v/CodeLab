@@ -1,5 +1,5 @@
 ﻿using CodeLab.Contracts.Exercises;
-using CodeLab.Core.Endpoints;
+using CodeLab.Core.Abstractions.Endpoints;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Exercises;
 using CSharpFunctionalExtensions;

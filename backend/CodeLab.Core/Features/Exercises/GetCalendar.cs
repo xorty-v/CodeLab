@@ -1,7 +1,7 @@
 ﻿using CodeLab.Contracts.Exercises;
+using CodeLab.Core.Abstractions.Endpoints;
+using CodeLab.Core.Abstractions.Validation;
 using CodeLab.Core.Database;
-using CodeLab.Core.Endpoints;
-using CodeLab.Core.Validation;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Exercises;
 using CSharpFunctionalExtensions;

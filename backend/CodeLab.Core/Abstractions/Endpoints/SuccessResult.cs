@@ -2,7 +2,7 @@
 using CodeLab.Domain.Abstractions.Errors;
 using Microsoft.AspNetCore.Http;
 
-namespace CodeLab.Core.Endpoints;
+namespace CodeLab.Core.Abstractions.Endpoints;
 
 public class SuccessResult : IResult
 {

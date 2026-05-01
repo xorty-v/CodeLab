@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Routing;
 
-namespace CodeLab.Core.Endpoints;
+namespace CodeLab.Core.Abstractions.Endpoints;
 
 public interface IEndpoint
 {

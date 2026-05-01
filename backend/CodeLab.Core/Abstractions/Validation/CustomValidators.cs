@@ -3,7 +3,7 @@ using CodeLab.Domain.Abstractions.Errors;
 using CSharpFunctionalExtensions;
 using FluentValidation;
 
-namespace CodeLab.Core.Validation;
+namespace CodeLab.Core.Abstractions.Validation;
 
 public static class CustomValidators
 {

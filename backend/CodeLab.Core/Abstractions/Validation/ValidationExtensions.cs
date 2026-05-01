@@ -2,7 +2,7 @@
 using CodeLab.Domain.Abstractions.Errors;
 using FluentValidation.Results;
 
-namespace CodeLab.Core.Validation;
+namespace CodeLab.Core.Abstractions.Validation;
 
 public static class ValidationExtensions
 {

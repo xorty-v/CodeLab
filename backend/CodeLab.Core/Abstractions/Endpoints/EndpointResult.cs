@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Metadata;
 using IResult = Microsoft.AspNetCore.Http.IResult;
 
-namespace CodeLab.Core.Endpoints;
+namespace CodeLab.Core.Abstractions.Endpoints;
 
 public sealed class EndpointResult : IResult, IEndpointMetadataProvider
 {

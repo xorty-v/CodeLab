@@ -1,5 +1,5 @@
 ﻿using CodeLab.Core;
-using CodeLab.Core.Endpoints;
+using CodeLab.Core.Abstractions.Endpoints;
 using CodeLab.Infrastructure.Postgres;
 using Microsoft.OpenApi.Models;
 using Serilog;

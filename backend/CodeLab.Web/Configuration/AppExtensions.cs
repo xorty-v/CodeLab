@@ -1,4 +1,4 @@
-﻿using CodeLab.Core.Endpoints;
+﻿using CodeLab.Core.Abstractions.Endpoints;
 using CodeLab.Web.Middlewares;
 using Serilog;
 

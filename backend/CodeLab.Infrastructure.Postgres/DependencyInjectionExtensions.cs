@@ -1,6 +1,5 @@
 ﻿using CodeLab.Core;
 using CodeLab.Core.Database;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

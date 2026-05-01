@@ -1,8 +1,8 @@
 ﻿using CodeLab.Contracts.Submissions;
 using CodeLab.Contracts.Submissions.Messaging;
-using CodeLab.Core.Endpoints;
+using CodeLab.Core.Abstractions.Endpoints;
+using CodeLab.Core.Abstractions.Validation;
 using CodeLab.Core.Features.Exercises;
-using CodeLab.Core.Validation;
 using CodeLab.Domain.Abstractions.Errors;
 using CodeLab.Domain.Exercises;
 using CodeLab.Domain.Submissions;
