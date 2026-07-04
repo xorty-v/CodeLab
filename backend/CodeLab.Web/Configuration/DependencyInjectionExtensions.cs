@@ -1,5 +1,6 @@
 ﻿using CodeLab.Core;
 using CodeLab.Core.Abstractions.Endpoints;
+using CodeLab.Infrastructure.FileSystem;
 using CodeLab.Infrastructure.Postgres;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -18,7 +19,8 @@ public static class DependencyInjectionExtensions
 
         services
             .AddCore(configuration)
-            .AddInfrastructurePostgres(configuration);
+            .AddInfrastructurePostgres(configuration)
+            .AddInfrastructureFileSystem(configuration);
 
         return services;
     }

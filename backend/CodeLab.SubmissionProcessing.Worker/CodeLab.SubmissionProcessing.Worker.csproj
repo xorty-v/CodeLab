@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CodeLab.Domain\CodeLab.Domain.csproj"/>
+    <ProjectReference Include="..\CodeLab.Infrastructure.FileSystem\CodeLab.Infrastructure.FileSystem.csproj"/>
     <ProjectReference Include="..\CodeLab.Infrastructure.Postgres\CodeLab.Infrastructure.Postgres.csproj"/>
   </ItemGroup>
 

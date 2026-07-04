@@ -1,4 +1,5 @@
 using System.Globalization;
+using CodeLab.Infrastructure.FileSystem;
 using CodeLab.Infrastructure.Postgres;
 using CodeLab.SubmissionProcessing.Worker;
 using CodeLab.SubmissionProcessing.Worker.Messaging;
@@ -25,6 +26,8 @@ try
     builder.Services.AddConfiguration(builder.Configuration);
 
     builder.Services.AddInfrastructurePostgres(builder.Configuration);
+
+    builder.Services.AddInfrastructureFileSystem(builder.Configuration);
 
     builder.AddWolverine();
 
